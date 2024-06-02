@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="icon" href="img/belle.jpeg"/>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-custom-02">
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-12 d-flex flex-column justify-content-center">
+                <a class="navbar-brand mx-auto" href="index.html"><img class="rounded-circle" width="100" src="img/belle.jpeg"></a>
+
+                <form id="cadastro-form" class="w-50 mx-auto" action="" method="post">
+                    <div class="form-group">
+                        <input type="text" name="nome" id="entrada-nome" required class="form-control" placeholder="Digite seu nome">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" id="entrada-email" required class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="entrada-password" required class="form-control" placeholder="Senha">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="entrada-confirmar-password" required class="form-control" placeholder="Confirmar senha">
+                    </div>
+                    <div class="d-flex mx-auto form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label text-white">Aceita os termos de condições?</label>
+                    </div>
+                    <button type="submit" id="cadastro" class="btn btn-primary btn-block">
+                        Criar Conta
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="../scripts/script.js"></script>
+    <script src="https://kit.fontawesome.com/1c1a7822a4.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('cadastro-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nome = document.getElementById('entrada-nome').value;
+            const email = document.getElementById('entrada-email').value;
+            const password = document.getElementById('entrada-password').value;
+
+            try {
+                const response = await axios.post('/cadastro', { nome, email, password });
+                alert('Cadastro realizado com sucesso!');
+            } catch (error) {
+                console.error('Erro ao cadastrar:', error);
+                alert('Erro ao cadastrar');
+            }
+        });
+    </script>
+</body>
+</html>
