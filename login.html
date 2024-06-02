@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fazer Login</title>
+    <link rel="icon" href="./img/belle.jpeg"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body class="bg-custom-02">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 d-flex flex-column justify-content-center">
+                <a class="navbar-brand mx-auto" href="index.html"><img class="rounded-circle" width="100" src="../img/belle.jpeg"></a>
+
+                <form id="loginForm" class="w-50 mx-auto" action="/login" method="post">
+                    <div class="form-group">
+                        <input type="email" name="email" id="entrada-email" required class="form-control" placeholder="Email Address">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="entrada-password" required class="form-control" placeholder="Password">
+                    </div>
+
+                    <button type="submit" id="login" class="btn btn-primary btn-block">Login</button>
+                    <div id="message" class="mt-3"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="/scripts/script.js"></script> <!-- Certifique-se de que o caminho está correto -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://kit.fontawesome.com/1c1a7822a4.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('Formulário de login enviado');
+            const email = document.getElementById('entrada-email').value;
+            const password = document.getElementById('entrada-password').value;
+
+            try {
+                const response = await axios.post('/login', { email, password });
+                if (response.status === 200) {
+                    localStorage.setItem('userName', response.data.nome); // Salva o nome do usuário no localStorage
+                    window.location.href = response.data.redirect; // Redireciona para a página especificada pelo servidor
+                } else {
+                    document.getElementById('message').textContent = 'Erro ao fazer login';
+                }
+            } catch (error) {
+                console.error('Erro ao fazer login:', error);
+                document.getElementById('message').textContent = 'Erro ao fazer login';
+            }
+        });
+    </script>
+</body>
+</html>
