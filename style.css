@@ -1,0 +1,93 @@
+html, body, .container, .row {
+    height: 100%;
+}
+
+.bg-custom{
+    background: #57B9E6!important;
+}
+.bg-custom-02{
+    background: linear-gradient(to bottom, #57B9E6, #3c7e9c);
+}
+.font-content{
+    color: #57B9E6;
+}
+
+/*botões*/ 
+.btn-custom{
+    background: #57B9E6!important;
+    color: white;
+}
+.btn-custom:hover{
+    background: #2cade9!important;
+    color: white;
+}
+/*botões*/
+
+
+/*separador*/
+.separator{
+    opacity: 0.2;
+    height: 1px;
+    width: 100%;
+    background: white;
+    margin: 7px 0 7px 0;
+}
+/*separador*/
+
+
+/*cor do ícone*/
+.fa-color-custom{
+    color: white;
+}
+/*cor do ícone*/
+
+
+/*borda carousel*/
+.border-carousel{
+    border: 1px solid #2cade9!important;
+    border-radius: 50px!important;
+}
+/*borda carousel*/
+
+
+
+
+
+
+
+
+
+/* Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) {
+    .font-menu{
+        font-size: 1.1em!important;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .font-menu{
+        font-size: 1.1rem!important;
+    }
+}
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .font-menu{
+        font-size: 1.15rem!important;
+    }
+}
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .font-menu{
+        font-size: 1.20em!important;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    .font-menu{
+        font-size: 1.25em!important;
+    }
+}
