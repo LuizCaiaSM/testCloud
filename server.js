@@ -10,10 +10,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'carlos04',
-    database: 'loginecadastro'
+    host: 'projetobelle2.mysql.database.azure.com',
+    user: 'projetobelle2',
+    password: 'belledb2*',
+    database: 'projetobelle2'
 });
 
 connection.connect(err => {
