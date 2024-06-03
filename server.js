@@ -28,8 +28,10 @@ async function connectToDatabase() {
 }
 
 connectToDatabase();
-
-app.post('/api/cadastro', async (req, res) => {
+app.get('/cadastro.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '/cadastro.html'));
+});
+app.post('/cadastro', async (req, res) => {
     const { nome, email, password } = req.body;
 
     try {
