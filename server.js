@@ -25,8 +25,7 @@ async function connectToDatabase() {
     } catch (err) {
         console.error('Erro ao conectar ao banco de dados SQL Server:', err);
     }
-
-connectToDatabase();
+}
 
 connectToDatabase();
 
@@ -43,48 +42,7 @@ app.post('/cadastro', async (req, res) => {
 
         res.send('Cadastro realizado com sucesso!');
     } catch (err) {
-        console.error('Erro ao conectar ao banco de dados:', err);
+        console.error('Erro ao cadastrar:', err);
         res.status(500).send('Erro ao cadastrar');
     }
-});
-
-app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return res.status(400).send('Email e senha são obrigatórios');
-    }
-
-    try {
-        const query = 'SELECT * FROM users WHERE email = ?';
-        const [results] = await connection.execute(query, [email]);
-
-        if (results.length === 0) {
-            return res.status(401).send('Email ou senha incorretos');
-        }
-
-        const user = results[0];
-        const isPasswordCorrect = await bcrypt.compare(password, user.senha);
-
-        if (!isPasswordCorrect) {
-            return res.status(401).send('Email ou senha incorretos');
-        }
-
-        res.status(200).json({ message: 'Login bem-sucedido', redirect: '/index2.html', nome: user.nome });
-    } catch (err) {
-        console.error('Erro ao consultar usuário:', err);
-        res.status(500).send('Erro ao consultar usuário');
-    }
-});
-
-app.get('/login.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
-
-app.get('/index.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
 });
