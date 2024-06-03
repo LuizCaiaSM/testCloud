@@ -46,20 +46,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        document.getElementById('cadastro-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const nome = document.getElementById('entrada-nome').value;
-            const email = document.getElementById('entrada-email').value;
-            const password = document.getElementById('entrada-password').value;
+       document.getElementById('cadastro-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nome = document.getElementById('entrada-nome').value;
+    const email = document.getElementById('entrada-email').value;
+    const password = document.getElementById('entrada-password').value;
 
-            try {
-    const response = await axios.post('cadastro', { nome, email, password });
-    alert('Cadastro realizado com sucesso!');
-} catch (error) {
-    console.error('Erro ao cadastrar:', error);
-    alert('Erro ao cadastrar');
-}
-        });
+    try {
+        const response = await axios.post('/api/cadastro', { nome, email, password });
+        alert('Cadastro realizado com sucesso!');
+    } catch (error) {
+        console.error('Erro ao cadastrar:', error);
+        alert('Erro ao cadastrar');
+    }
+});
     </script>
 </body>
 </html>
