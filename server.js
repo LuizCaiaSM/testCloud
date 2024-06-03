@@ -46,3 +46,7 @@ app.post('/cadastro', async (req, res) => {
         res.status(500).send('Erro ao cadastrar');
     }
 });
+
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+});
