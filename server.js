@@ -1,19 +1,21 @@
 const express = require('express');
-const mysql = require('mysql2/promise');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs');
-const path = require('path');
+const cors = require('cors');
+const sql = require('mssql');
 const app = express();
-const port = 3306;
+const port = process.env.PORT || 3306;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.json());
 
 const dbConfig = {
     host: projetobelle2.mysql.database.azure.com,
     user: projetobelle2,
     password: JuniorPVP2#,
-    database: projetobellepet
+    database: projetobellepet,
+     options: {
+        encrypt: true,
+        enableArithAbort: true
+    }
 };
 
 let connection;
@@ -32,23 +34,20 @@ connectToDatabase();
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/cadastro', async (req, res) => {
-    console.log('Recebida requisição de cadastro:', req.body);
     const { nome, email, password } = req.body;
 
-    if (!nome || !email || !password) {
-        console.log('Nome, email ou senha não fornecidos');
-        return res.status(400).send('Nome, email e senha são obrigatórios');
-    }
-
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const query = 'INSERT INTO users (nome, email, senha) VALUES (?, ?, ?)';
-        const [results] = await connection.execute(query, [nome, email, hashedPassword]);
-        console.log('Usuário cadastrado com sucesso:', results);
-        res.status(201).send('Usuário cadastrado com sucesso');
+        let pool = await sql.connect(dbConfig);
+        let result = await pool.request()
+            .input('nome', sql.NVarChar, nome)
+            .input('email', sql.NVarChar, email)
+            .input('password', sql.NVarChar, password)
+            .query('INSERT INTO users (senha, email, senha) VALUES (@nome, @email, @password)');
+
+        res.send('Cadastro realizado com sucesso!');
     } catch (err) {
-        console.error('Erro ao cadastrar usuário:', err);
-        res.status(500).send('Erro ao cadastrar usuário');
+        console.error('Erro ao conectar ao banco de dados:', err);
+        res.status(500).send('Erro ao cadastrar');
     }
 });
 
