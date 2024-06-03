@@ -55,9 +55,10 @@
     
     try {
         const response = await axios.post('/api/cadastro', { nome, email, password });
-        $("#cadastro").on('click', function(){
-            $("#conta-criada").css('display', 'show')
-        }
+            $("#cadastro").on('click', function(){
+                $("#conta-criada").show();
+            });
+
     } catch (error) {
         console.error('Erro ao cadastrar:', error);
         alert('Erro ao cadastrar');
