@@ -29,7 +29,7 @@ async function connectToDatabase() {
 
 connectToDatabase();
 
-app.post('/cadastro', async (req, res) => {
+app.post('/api/cadastro', async (req, res) => {
     const { nome, email, password } = req.body;
 
     try {
