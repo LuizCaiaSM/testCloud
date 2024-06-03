@@ -8,30 +8,27 @@ app.use(cors());
 app.use(express.json());
 
 const dbConfig = {
-    host: projetobelle2.mysql.database.azure.com,
-    user: projetobelle2,
-    password: JuniorPVP2#,
-    database: projetobellepet,
-     options: {
+    user: 'projetobelle2',
+    password: 'JuniorPVP2#',
+    server: 'projetobelle2.mysql.database.azure.com',
+    database: 'projetobellepet',
+    options: {
         encrypt: true,
         enableArithAbort: true
     }
 };
 
-let connection;
-
 async function connectToDatabase() {
     try {
-        connection = await mysql.createConnection(dbConfig);
-        console.log('Conectado ao banco de dados MySQL.');
+        await sql.connect(dbConfig);
+        console.log('Conectado ao banco de dados SQL Server.');
     } catch (err) {
-        console.error('Erro ao conectar ao banco de dados MySQL:', err);
+        console.error('Erro ao conectar ao banco de dados SQL Server:', err);
     }
-}
 
 connectToDatabase();
 
-app.use(express.static(path.join(__dirname, 'public')));
+connectToDatabase();
 
 app.post('/cadastro', async (req, res) => {
     const { nome, email, password } = req.body;
@@ -42,7 +39,7 @@ app.post('/cadastro', async (req, res) => {
             .input('nome', sql.NVarChar, nome)
             .input('email', sql.NVarChar, email)
             .input('password', sql.NVarChar, password)
-            .query('INSERT INTO users (senha, email, senha) VALUES (@nome, @email, @password)');
+            .query('INSERT INTO users (nome, email, senha) VALUES (@nome, @email, @password)');
 
         res.send('Cadastro realizado com sucesso!');
     } catch (err) {
