@@ -10,10 +10,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const dbConfig = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
+    host: projetobelle2.mysql.database.azure.com,
+    user: projetobelle2,
+    password: JuniorPVP2#,
+    database: projetobellepet
 };
 
 let connection;
