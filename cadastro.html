@@ -35,6 +35,7 @@
                     <button type="submit" id="cadastro" class="btn btn-primary btn-block">
                         Criar Conta
                     </button>
+                    <h4 id="conta-criada" style="hide">Conta criada com sucesso!</h4>
                 </form>
             </div>
         </div>
@@ -51,10 +52,12 @@
     const nome = document.getElementById('entrada-nome').value;
     const email = document.getElementById('entrada-email').value;
     const password = document.getElementById('entrada-password').value;
-
+    
     try {
         const response = await axios.post('/api/cadastro', { nome, email, password });
-        alert('Cadastro realizado com sucesso!');
+        $("#cadastro").on('click', function(){
+            $("#conta-criada").css('display', 'show')
+        }
     } catch (error) {
         console.error('Erro ao cadastrar:', error);
         alert('Erro ao cadastrar');
