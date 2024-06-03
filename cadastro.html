@@ -53,7 +53,7 @@
             const password = document.getElementById('entrada-password').value;
 
             try {
-    const response = await axios.post('https://projetobelle2.azurewebsites.net/cadastro', { nome, email, password });
+    const response = await axios.post('/cadastro', { nome, email, password });
     alert('Cadastro realizado com sucesso!');
 } catch (error) {
     console.error('Erro ao cadastrar:', error);
