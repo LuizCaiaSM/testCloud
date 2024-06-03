@@ -11,7 +11,7 @@ const dbConfig = {
     user: 'projetobelle2',
     password: 'JuniorPVP2#',
     server: 'projetobelle2.mysql.database.azure.com',
-    database: 'projetobellepet',
+    database: 'cadastrologin',
     options: {
         encrypt: true,
         enableArithAbort: true
