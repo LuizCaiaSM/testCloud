@@ -29,21 +29,15 @@ async function connectToDatabase() {
 
 connectToDatabase();
 
-app.post('/cadastro', async (req, res) => {
-    const { nome, email, password } = req.body;
-
+app.get('/cadastro', async (req, res) => {
     try {
         let pool = await sql.connect(dbConfig);
-        let result = await pool.request()
-            .input('nome', sql.NVarChar, nome)
-            .input('email', sql.NVarChar, email)
-            .input('password', sql.NVarChar, password)
-            .query('INSERT INTO users (nome, email, senha) VALUES (@nome, @email, @password)');
+        let result = await pool.request().query('SELECT * FROM users');
 
-        res.send('Cadastro realizado com sucesso!');
+        res.json(result.recordset);
     } catch (err) {
-        console.error('Erro ao cadastrar:', err);
-        res.status(500).send('Erro ao cadastrar');
+        console.error('Erro ao buscar cadastros:', err);
+        res.status(500).send('Erro ao buscar cadastros');
     }
 });
 
