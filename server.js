@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const path = require('path');
@@ -9,20 +9,25 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const connection = mysql.createConnection({
-    host: 'projetobelle2.mysql.database.azure.com',
-    user: 'projetobelle2',
-    password: 'belledb2*',
-    database: 'projetobelle2'
-});
+const dbConfig = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
+};
 
-connection.connect(err => {
-    if (err) {
-        console.error('Erro ao conectar ao banco de dados MySQL:', err);
-    } else {
+let connection;
+
+async function connectToDatabase() {
+    try {
+        connection = await mysql.createConnection(dbConfig);
         console.log('Conectado ao banco de dados MySQL.');
+    } catch (err) {
+        console.error('Erro ao conectar ao banco de dados MySQL:', err);
     }
-});
+}
+
+connectToDatabase();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -38,16 +43,11 @@ app.post('/cadastro', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const query = 'INSERT INTO users (nome, email, senha) VALUES (?, ?, ?)';
-        connection.query(query, [nome, email, hashedPassword], (err, results) => {
-            if (err) {
-                console.error('Erro ao cadastrar usuário:', err);
-                return res.status(500).send('Erro ao cadastrar usuário');
-            }
-            console.log('Usuário cadastrado com sucesso:', results);
-            res.status(201).send('Usuário cadastrado com sucesso');
-        });
+        const [results] = await connection.execute(query, [nome, email, hashedPassword]);
+        console.log('Usuário cadastrado com sucesso:', results);
+        res.status(201).send('Usuário cadastrado com sucesso');
     } catch (err) {
-        console.error('Erro ao processar a requisição de cadastro:', err);
+        console.error('Erro ao cadastrar usuário:', err);
         res.status(500).send('Erro ao cadastrar usuário');
     }
 });
@@ -61,7 +61,7 @@ app.post('/login', async (req, res) => {
 
     try {
         const query = 'SELECT * FROM users WHERE email = ?';
-        const [results] = await connection.promise().query(query, [email]);
+        const [results] = await connection.execute(query, [email]);
 
         if (results.length === 0) {
             return res.status(401).send('Email ou senha incorretos');
