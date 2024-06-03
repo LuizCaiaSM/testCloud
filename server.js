@@ -47,6 +47,39 @@ app.post('/api/cadastro', async (req, res) => {
     }
 });
 
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).send('Email e senha são obrigatórios');
+    }
+
+    try {
+        const connection = await connectToDatabase();
+        const query = 'SELECT * FROM users WHERE email = ?';
+        const [results] = await connection.execute(query, [email]);
+
+        if (results.length === 0) {
+            connection.end();
+            return res.status(401).send('Email ou senha incorretos');
+        }
+
+        const user = results[0];
+        const isPasswordCorrect = await bcrypt.compare(password, user.senha);
+
+        connection.end();
+
+        if (!isPasswordCorrect) {
+            return res.status(401).send('Email ou senha incorretos');
+        }
+
+        res.status(200).json({ message: 'Login bem-sucedido', redirect: '/index2.html', nome: user.nome });
+    } catch (err) {
+        console.error('Erro ao consultar usuário:', err);
+        res.status(500).send('Erro ao consultar usuário');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
